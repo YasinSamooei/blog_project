@@ -6,6 +6,8 @@ from django.contrib import messages
 from blog.models import Blog
 from .models import Contact
 from .forms import ContactForm
+from accounts.models import User
+
 
 class HomeView(TemplateView):
     template_name = 'home/index.html'
@@ -29,3 +31,8 @@ class ContactView(CreateView):
         form.save()
         messages.add_message(self.request, messages.SUCCESS, "Your comment was successfully registered.")
         return redirect("home:contact")
+
+
+class AboutUsView(ListView):
+    template_name='home/about-us.html'
+    queryset = User.objects.filter(is_staff=True)
