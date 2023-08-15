@@ -11,8 +11,8 @@ class User(AbstractBaseUser):
     image = models.ImageField(upload_to='images/users', null=True, blank=True)
     bio = models.CharField(null=True, blank=True , max_length=500)
     instagram =models.URLField(null=True,blank=True)
-    telegram =models.URLField(null=True,blank=True)
-    whatsapp =models.URLField(null=True,blank=True)
+    twitter =models.URLField(null=True,blank=True)
+    linkedin =models.URLField(null=True,blank=True)
 
     date_joined = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)

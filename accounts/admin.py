@@ -18,12 +18,12 @@ class UserAdmin(BaseUserAdmin):
                    )
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('اطلاعات شخصی', {'fields': ('full_name', 'image', 'instagram','telegram','whatsapp')}),
+        ('اطلاعات شخصی', {'fields': ('full_name', 'image', 'instagram','twitter','linkedin')}),
         ('دسترسی‌ها', {'fields': ('is_active', 'is_staff', 'is_superuser')}),
     )
     add_fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('اطلاعات شخصی', {'fields': ('full_name', 'image', 'instagram','telegram','whatsapp')}),
+        ('اطلاعات شخصی', {'fields': ('full_name', 'image', 'instagram','twitter','linkedin')}),
         ('دسترسی‌ها', {'fields': ('is_active', 'is_staff', 'is_superuser')}),
 
     )

@@ -66,21 +66,31 @@
                <div class="col-md-3 col-sm-6">
                    <div class="team-thumb">
                        <div class="author">
-                           <img src="images/author1.jpg" alt="Tracy - templatemo">
+                        {% if user.image %}
+                           <img src="{{user.image.url}}" alt="user">
+                        {% else %}
+                            <img src="{% static 'images/user.png' %}" alt="user">
+                        {% endif %}
                        </div>
                        <div class="overlay">
                            <div class="author-caption">
                                <ul>
-                                   <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                   <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                   <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                                {% if user.instagram %}
+                                   <li><a href="{{user.instagram}}"><i class="fa fa-instagram"></i></a></li>
+                                {% endif %}
+                                {% if user.twitter %}
+                                   <li><a href="{{user.twitter}}"><i class="fa fa-twitter"></i></a></li>
+                                {% endif %}
+                                {% if user.linkedin %}
+                                   <li><a href="{{user.linkedin}}"><i class="fa fa-linkedin"></i></a></li>
+                                {% endif %}
                                </ul>
                             </div>
                         </div>
                     </div>
                     <div class="author-details">
-                        <h2>Tracy</h2>
-                        <span>Designer</span>
+                        <h2>{{user.full_name}}</h2>
+                        <span>{{user.date_joined}}</span>
                     </div>
                </div>
             {% endfor %}
