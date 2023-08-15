@@ -5,9 +5,7 @@ from .models import User ,Otp
 
 from .forms import SignUpForm,UserChangeForm
 
-admin.site.site_header = 'مدیریت سایت'
-admin.site.site_title = 'صفحه مدیریت'
-admin.site.index_title = 'سایت اشتراک ویدئو'
+admin.site.index_title = 'free blog site'
 
 
 class UserAdmin(BaseUserAdmin):
@@ -15,7 +13,7 @@ class UserAdmin(BaseUserAdmin):
     add_form = SignUpForm
     form = UserChangeForm
 
-    list_display = ( 'email', 'full_name', 'is_active', 'is_staff', 'is_superuser', 'get_jalali_date')
+    list_display = ( 'email', 'full_name', 'is_active', 'is_staff', 'is_superuser')
     list_filter = ('is_active', 'is_superuser', 'is_staff'
                    )
     fieldsets = (

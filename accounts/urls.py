@@ -9,5 +9,5 @@ urlpatterns = [
     # path('verify-otp/', views.CheckOTPView.as_view(), name='verify-otp'),
 
 
-    # path('logout/', LogoutView.as_view(next_page='home:main'), name='logout'),
+    path('logout/', LogoutView.as_view(next_page='home:main'), name='logout'),
 ]

@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Contact Us
+{% endblock %}
+
+{% block meta %}
+   <meta name="robots" content="index , follow"/>
+{% endblock %}
+
+{% block main %}
+      <!-- MainContent -->
+
+      <div id="heading">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="heading-content">
+                        <h2>Contact Us</h2>
+                        <span><a href="{% url 'home:main' %}">Home</a> / <a href="">Contact Us</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="product-post">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="heading-section">
+                        <h2>Feel free to send a message</h2>
+                        <img src="{% static 'images/under-heading.png' %}" alt="" >
+                    </div>
+                </div>
+            </div>
+            <div id="contact-us">
+                <div class="container">
+                    <div class="row">
+                        <div class="product-item col-md-12">
+                            <div class="row">
+                                <div class="col-md-8">  
+                                    <div class="message-form">
+                                        <p class="iq-title-desc">{% for message in messages %}
+                                            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                                                <div class="alert-danger rounded"
+                                                     style="padding: 5px">
+                                                    {{ message }}
+                                                </div>
+                                            {% else %}
+                                                <div class="alert-success rounded"
+                                                     style="padding: 5px">
+                                                    {{ message }}
+                                                </div>
+                                            {% endif %}
+                                            {% endfor %}</p>
+                                        <form action="#" method="post" class="send-message">
+                                            {% csrf_token %}
+                                            <div class="row">
+                                            <div class="name col-md-4">
+                                                {{form.name}}
+                                            </div>
+                                            <div class="email col-md-4">
+                                                {{form.last_name}}
+                                            </div>
+                                            <div class="subject col-md-4">
+                                                {{form.email}}
+                                            </div>
+                                            </div>
+                                            <div class="row">        
+                                                <div class="text col-md-12">
+                                                    {{form.content}}
+                                                </div>   
+                                            </div>                              
+                                            <div class="send">
+                                                <button type="submit">Send</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="info">
+                                        <p>Duis at pharetra neque, ut condimentum, purus nisl pretium quam, in pulvinar velit massa id elit. </p>
+                                        <ul>
+                                            <li><i class="fa fa-phone"></i>090-080-0760</li>
+                                            <li><i class="fa fa-globe"></i>456 New Dagon City Studio, Yankinn, Digital Estate</li>
+                                            <li><i class="fa fa-envelope"></i><a href="#">yasin.electrocode@gmail.com</a></li>
+                                        </ul>
+                                    </div>
+                                </div>     
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="heading-section">
+                        <h2>Find Us On Map</h2>
+                        <img src="{% static 'images/under-heading.png' %}" alt="" >
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="googleMap" style="height:340px;"></div>
+                </div>
+            </div>     
+        </div>
+    </div>
+
+      <!-- MainContent End-->
+{% endblock %}
