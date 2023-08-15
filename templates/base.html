@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+ <html class="no-js"> 
+<!-- 
+
+Grill Template 
+
+http://www.templatemo.com/free-website-templates/417-grill
+
+-->
+
+<title>
+    {% block title %}
+    {% endblock %}
+</title>
+{% block meta %}
+{% endblock %}
+{% block metadescription %}
+{% endblock %}
+
+{% include 'includes/head.html' %}
+
+<body>
+
+<!-- header -->
+{% include 'includes/header.html' %}
+
+{% block main %}
+{% endblock %}
+
+<!-- footer -->
+{% include 'includes/footer.html' %}
+
+<!-- scripts -->
+{% include 'includes/scripts.html' %}
+
+</body>
+
+</html>

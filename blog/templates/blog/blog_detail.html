@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load social_share %}
+{% load hitcount_tags %}
+{% load humanize %}
+{% block title %}
+        {{blog.title}}
+{% endblock %}
+
+{% block metadescription %}
+    <meta name="description" content="{{ blog.meta_description }}">
+{% endblock %}
+
+{% block meta %}
+   <meta name="robots" content="index , follow"/>
+{% endblock %}
+
+{% block main %}
+<div class="iq-breadcrumb-one  iq-bg-over iq-over-dark-50"
+style="background-image: url({% static 'Theme/images/about-us/01.jpg' %});">
+<div class="container-fluid">
+    <div class="row align-items-center">
+        <div class="col-sm-12">
+            <nav aria-label="breadcrumb" class="text-center iq-breadcrumb-two">
+                <h2 class="title">{{blog.title}}</h2>
+                <ol class="breadcrumb main-bg">
+                    <li class="breadcrumb-item"><a href="{% url 'home:main' %}">خانه</a></li>
+                    <li class="breadcrumb-item"><a
+                        href="{% url 'blog:tag-detail' blog.tag.last.slug %}">{{ blog.tag.last }}</a>
+                    </li>
+                    <li class="breadcrumb-item"><a
+                        href="{% url 'blog:blog-detail' blog.slug %}">{{ blog.slug }}</a>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Main container --> 
+<main id="main" class="site-main">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-sm-12">
+                <article>
+                    <div class="iq-blog-box">
+                       <div class="iq-blog-image">
+                          <img width="1920" height="1080" src="{{blog.image.url}}" >				
+                       </div>
+                       <div class="iq-blog-detail">
+                            <div class="iq-blog-meta">
+                                <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    <a href="#" class="iq-user"><i class="fa fa-user-o mr-1" aria-hidden="true"></i>{{blog.author.full_name}}</a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <i class="fa fa-calendar mr-1" aria-hidden="true"></i>
+                                    <span class="screen-reader-text">نوشته شده در</span>
+                                    <a href="#" rel="bookmark">
+                                        <time  datetime="2019-02-02T12:46:15+00:00">{{blog.get_jalali_date}}</time>
+                                    </a>					
+                                </li>
+                                </ul>
+                            </div>
+                            <div class="blog-content" id="scroll">
+                                <p>{{blog.description|safe}}</p>
+                        </div>
+                        <div class="comments-area validate-form">
+                            <div  class="comment-respond">
+                                {% if request.user.is_authenticated %}
+                                <h3  class="comment-reply-title">نظر دهید </h3>
+                                <form action="" method="post"  class="comment-form" novalidate=""><div class="comment-form-comment">
+                                    {% csrf_token %}
+                                    <textarea name="body" aria-required="true" id="get_fullname" placeholder="دیدگاه خود را ثبت کنید:" required ></textarea></div>
+                                    <p class="form-submit">
+                                        <button name="submit" type="submit" id="submit" class="submit" value="Post Comment">
+                                            <span class="iq-btn-text-holder">ارسال نظر</span>
+                                        </button>
+                                        <input id="parent_id" name="parent_id" type="hidden">
+                                        <input id="sender" name="sender" type="hidden">
+                                        <input id="receiver" name="receiver" type="hidden">
+                                    </p>
+                                   
+                                </form>
+                                <div onclick="CanselButton()" id="cansel_button" style="margin-left: 5px;margin-top: 5px; "></div>	
+                                {% else %}
+                                <h3  class="comment-reply-title btn btn-danger">برای ثبت دیدگاه ابتدا وارد شوید<a href="{% url 'account:sign-in' %}">ورود</a></h3>
+                                {% endif %}
+                            </div>
+                            <div class="wpcf7-response-output error-msg" aria-hidden="true" style="display: none;">
+                            </div>
+                            <div class="infinite-container">
+                                {% for comment in comments %}
+                                    {% if comment.parent == None %}
+                                        <div class="comment my-3 p-2 infinite-item" id="comment_{{ comment.id }}">
+                                            <div class=" d-flex align-items-center justify-content-between">
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    {% if comment.user.image %}
+                                                        <img src="{{ comment.user.image.url }}" alt="user"
+                                                             class="" style="border-radius: 50%;width: 50px;height: 50px;">
+                                                    {% else %}
+                                                        <img src="{% static 'Theme/images/user/user.jpg' %}"
+                                                             alt="user"
+                                                             class="" style="border-radius: 50%;width: 50px;height: 50px;">
+                                                    {% endif %}
+                                                    {% if comment.user.full_name %}
+                                                        <p class="user-name pr-2">{{ comment.user.full_name }}</p>
+                                                    {% else %}
+                                                        <p class="user-name pr-2">کاربر ناشناس</p>
+                                                    {% endif %}
+
+                                                    {% if request.user == comment.user %}
+
+                                                        <a onclick="RemoveComment({{ comment.id }})" style="background-color: transparent;margin-bottom: 10px;" class="a">
+                                                            <i class="fa fa-trash text-danger mr-4"></i>    
+                                                        </a>
+                                                    {% endif %}
+                                                    <p class="comment-date-time text-danger mx-2">{{ comment.created_at|naturaltime }}</p>
+
+                                                </div>
+
+                                            </div>
+                                            <p class="px-4 py-2 comment-text text-justify">{{ comment.body }}</p>
+
+                                            <div class="d-flex align-items-center justify-content-end reply"
+                                                 type='button'>
+
+                                                {% if request.user.is_authenticated %}
+                                                <button onclick="reply('{{ comment.id }}', '{{ request.user.id }}', '{{ comment.user.id }}','{{ comment.user.full_name }}')" class="btn btn-primary">
+                                                <i class="fa fa-reply"></i>
+                                                پاسخ به این نظر
+                                                </button>
+                                                {% endif %}
+
+                                            </div>
+
+
+                                        </div>
+                                        {% for reply in comment.replies.all %}
+                                            <div class="comment my-3 p-2 comment-child">
+                                                <div class=" d-flex align-items-center justify-content-between">
+                                                    <div class="d-flex align-items-center justify-content-center">
+                                                        {% if reply.user.image %}
+                                                            <img src="{{ reply.user.image.url }}"
+                                                                 alt="user"
+                                                                 class="" style="border-radius: 50%;width: 50px;height: 50px;">
+                                                        {% else %}
+                                                            <img src="{% static 'Theme/images/user/user.jpg' %}"
+                                                                 alt="user"
+                                                                 class="" style="border-radius: 50%;width: 50px;height: 50px;">
+                                                        {% endif %}
+                                                        {% if reply.user.full_name %}
+                                                            <p class="user-name pr-2">{{ reply.user.full_name }}</p>
+                                                        {% else %}
+                                                            <p class="user-name pr-2">کاربر ناشناس</p>
+                                                        {% endif %}
+
+                                                        {% if request.user == reply.user %}
+
+
+
+                                                        <a onclick="RemoveComment({{ reply.id }})" style="background-color: transparent;margin-bottom: 10px;" class="a">
+                                                            <i class="fa fa-trash text-danger mr-4"></i>    
+                                                        </a>
+
+                                                        {% endif %}
+                                                        <p class="comment-date-time text-danger mx-2">{{ reply.created_at|naturaltime }}</p>
+
+                                                    </div>
+
+                                                </div>
+                                                <p class="px-4 py-2 comment-text text-justify">
+                                                    {{ reply.body }}
+                                                </p>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            {% include 'blog/sidebar.html' %}
+        </div>
+    </div>
+</main>
+<!-- Main container end -->
+{% endblock %}
