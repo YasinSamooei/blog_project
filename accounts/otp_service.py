@@ -39,7 +39,7 @@ class OTP:
 
     def send_otp(self, otp, email):
         print(email)
-        mail_subject = 'فعال سازی اکانت'
+        mail_subject = 'activate account'
         message = render_to_string('accounts/vrify_email.html', {
             'user': email,
             'code': otp,

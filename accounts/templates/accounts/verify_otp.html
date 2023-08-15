@@ -46,16 +46,12 @@
   </div>
 
 
-      <form class="form" method="post" action="{% url 'account:sign-up' %}">
+      <form class="form" method="post" action="">
         {% csrf_token %}
 
       <div class="inputBox"> 
 
         {{form.code}}    
-
-      </div> 
-
-      <div class="links"> <a href="#">Have you already created an account?</a> <a href="{% url 'account:sign-in' %}">SignIn</a> 
 
       </div> 
 
