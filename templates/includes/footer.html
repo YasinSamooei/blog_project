@@ -35,33 +35,29 @@
                 </div>
                 <div class="col-md-3">
                     <div class="shop-list">
-                        <h4 class="footer-title">Introducing the developer</h4>
+                        <h4 class="footer-title">Introducing the developer/tags</h4>
                         <ul>
                             <li><a href="https://github.com/YasinSamooei"><strong>Developed with Django by <a><span class="blue">Yasin Samooei</span></a><a><span class="green"> (electrocode) </span></a></strong></a></li>
+                            {% for tag in tags %}
+                            <li><span class="green"><a>{{tag.title}}</a></span></li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="recent-posts">
                         <h4 class="footer-title">Recent posts</h4>
+                        {% for blog in latest_blogs%}
                         <div class="recent-post">
                             <div class="recent-post-thumb">
-                                <img src="images/recent-post1.jpg" alt="">
+                                <img src="{{blog.image.url}}" alt="blog-image" style="width: 50px;height: 50px;">
                             </div>
                             <div class="recent-post-info">
-                                <h6><a href="#">Delicious and Healthy Menus</a></h6>
-                                <span>24/12/2084</span>
+                                <h6><a href="#">{{blog.title}}</a></h6>
+                                <span>{{blog.created_at}}</span>
                             </div>
                         </div>
-                        <div class="recent-post">
-                            <div class="recent-post-thumb">
-                                <img src="images/recent-post2.jpg" alt="">
-                            </div>
-                            <div class="recent-post-info">
-                                <h6><a href="#">Simple and effective meals</a></h6>
-                                <span>18/12/2084</span>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="col-md-3">

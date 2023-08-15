@@ -1,0 +1,86 @@
+{% load static %}
+<!doctype html>
+
+<html lang="en"> 
+
+ <head> 
+
+  <meta charset="UTF-8"> 
+
+  <title>Sign-up</title> 
+
+  <link rel="stylesheet" href="{% static 'css/style.css' %}"> 
+
+ </head> 
+
+ <body>
+  <section> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> 
+
+   <div class="signin"> 
+
+    <div class="content"> 
+
+     <h2>Sign Up</h2> 
+     {% for message in messages %}
+     {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+         <div class="alert-danger rounded"
+              style="padding: 5px">
+             {{ message }}
+         </div>
+     {% else %}
+         <div class="alert-success rounded"
+              style="padding: 5px">
+             {{ message }}
+         </div>
+     {% endif %}
+     {% endfor %}
+     {% if form.email.errors %}
+     {% for error in form.email.errors %}
+          <div class="inputBox"> 
+            <p style="color: aliceblue;"> {{ error }}</p>
+         </div>
+     {% endfor %}
+    {% endif %}
+
+
+      <form class="form" method="post" action="">
+        {% csrf_token %}
+
+      <div class="inputBox"> 
+
+        {{form.full_name}}    
+
+      </div> 
+
+      <div class="inputBox"> 
+
+        {{form.email}}   
+
+      </div> 
+      <div class="inputBox"> 
+
+        {{form.password}}
+
+      </div>
+
+      <div class="links"> <a href="#">Have you already created an account?</a> <a href="{% url 'account:sign-in' %}">SignIn</a> 
+
+      </div> 
+
+      <div class="inputBox"> 
+
+       <input type="submit" value="SignUp"> 
+
+      </div> 
+
+    </form>
+
+    </div> 
+
+   </div> 
+
+  </section> <!-- partial --> 
+
+</body>
+
+</html>

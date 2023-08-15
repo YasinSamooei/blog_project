@@ -10,13 +10,12 @@ from django.core import validators
 class SignUpForm(forms.ModelForm):
     email = forms.EmailField(
         widget=forms.TextInput(
-            {'class': "email-input", "placeholder": "ایمیل خود را وارد کنید", 'maxlength': 50}),
+            {'class': "email-input", "placeholder": "enter your email", 'maxlength': 50}),
     )
-    full_name = forms.CharField(widget=forms.TextInput(attrs={"class": "email-input",
-                                                              "placeholder": "نام و نام خانوادگی خود را وارد کنید"}))
+    full_name = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "enter your full name"}))
 
     password = forms.CharField(max_length=50, widget=forms.PasswordInput(attrs={
-        "class": "password-input", "placeholder": "گذرواژه خود را وارد کنید"
+        "class": "password-input", "placeholder": "enter your password"
     }))
 
     class Meta:
@@ -25,28 +24,28 @@ class SignUpForm(forms.ModelForm):
 
     def clean_email(self):
         if User.objects.filter(email=self.cleaned_data.get("email")).exists():
-            raise ValidationError("کاربر با این ایمیل در سایت وجود دارد")
+            raise ValidationError("User with this email already exists")
         return self.cleaned_data.get("email")
 
     def clean_password(self):
         if len(self.cleaned_data.get("password")) < 8:
-            raise ValidationError("طول گذرواژه باید حداقل ۸ کاراکتر باشد")
+            raise ValidationError("The length of the password must be at least 8 characters")
         return self.cleaned_data.get("password")
 
 
 class SignInForm(forms.Form):
     email = forms.EmailField(
-        widget=forms.TextInput(attrs={"class":"form-control","placeholder": "ایمیل خود را وارد کنید"}))
+        widget=forms.TextInput(attrs={"class":"form-control","placeholder": "enter your email"}))
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={"class": "form-control", "placeholder": "گذرواژه خود را وارد کنید"}))
+        widget=forms.PasswordInput(attrs={"class": "form-control", "placeholder": "enter your password"}))
 
 class ChangeEmailForm(forms.Form):
     email = forms.EmailField(
-        widget=forms.TextInput(attrs={"class":"form-control","placeholder": "ایمیل خود را وارد کنید"}))
+        widget=forms.TextInput(attrs={"class":"form-control","placeholder": "enter your email"}))
 
 
 class CheckOTPForm(forms.Form):
-    code = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'کد تایید را وارد کنید'}),
+    code = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'enter your validate code'}),
                            validators=[validators.MaxLengthValidator(4)])
 
 

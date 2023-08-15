@@ -1,0 +1,78 @@
+{% load static %}
+<!doctype html>
+
+<html lang="en"> 
+
+ <head> 
+
+  <meta charset="UTF-8"> 
+
+  <title>VerifyOtp</title> 
+
+  <link rel="stylesheet" href="{% static 'css/style.css' %}"> 
+
+ </head> 
+
+ <body>
+  <section> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> 
+
+   <div class="signin"> 
+
+    <div class="content"> 
+
+     <h2>VerifyOtp</h2> 
+     {% for message in messages %}
+     {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+         <div class="alert-danger rounded"
+              style="padding: 5px">
+             {{ message }}
+         </div>
+     {% else %}
+         <div class="alert-success rounded"
+              style="padding: 5px">
+             {{ message }}
+         </div>
+     {% endif %}
+     {% endfor %}
+     {% if form.code.errors %}
+     {% for error in form.code.errors %}
+          <div class="inputBox"> 
+            <p style="color: aliceblue;"> {{ error }}</p>
+         </div>
+     {% endfor %}
+    {% endif %}
+    <div class="inputBox" role="alert">
+      <p style="color: rgb(255, 0, 0);">The verification code has been sent to your email.</p>
+  </div>
+
+
+      <form class="form" method="post" action="{% url 'account:sign-up' %}">
+        {% csrf_token %}
+
+      <div class="inputBox"> 
+
+        {{form.code}}    
+
+      </div> 
+
+      <div class="links"> <a href="#">Have you already created an account?</a> <a href="{% url 'account:sign-in' %}">SignIn</a> 
+
+      </div> 
+
+      <div class="inputBox"> 
+
+       <input type="submit" value="VerifyOtp"> 
+
+      </div> 
+
+    </form>
+
+    </div> 
+
+   </div> 
+
+  </section> <!-- partial --> 
+
+</body>
+
+</html>

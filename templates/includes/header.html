@@ -7,9 +7,10 @@
                    <div class="home-account">
                     {% if request.user.is_authenticated %}
                        <a href="#">My account</a>
+                       <i class="fa fa-bell" style="margin-right: 5px;"></i>
                        <a href="{% url 'account:logout' %}">Log out</a>
                     {% else %}
-                    <a href="#">sign-in</a>
+                    <a href="{% url 'account:sign-in' %}">sign-in</a>
                     {% endif %}
                    </div>
                </div>
