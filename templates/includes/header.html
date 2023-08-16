@@ -54,8 +54,8 @@
                </div>
                <div class="col-md-3">
                    <div class="search-box">  
-                       <form name="search_form" method="get" class="search_form">
-                           <input id="search" type="text" />
+                       <form name="search_form" method="get" class="search_form" action="{% url 'blog:blog-search' %}">
+                           <input id="search" type="search" value="{% if request.GET.q %}{{ request.GET.q }}{% endif %}" required name="q"/>
                            <input type="submit" id="search-button" />
                        </form>
                    </div>

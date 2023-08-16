@@ -10,5 +10,83 @@
 {% endblock %}
 
 {% block main %}
+<div id="heading">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="heading-content">
+                    <h2>Our BLogs</h2>
+                    <span><a href="{% url 'home:main' %}">Home</a> /<a href="{% url 'blog:blog-list' %}">Blogs</a> / <a> search for: {{ request.GET.q }}</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+ </div>
+ 
+ 
+ 
+ 
+ 
+ <div id="products-post">
+    <div class="container">
+        <div class="row" id="Container">
+        {% if object_list %}
+            {% for blog in object_list %}
+            
+            <div class="col-md-3 col-sm-6 mix portfolio-item Pizza">       
+                <div class="portfolio-wrapper">                
+                    <div class="portfolio-thumb">
+                        <img src="{{blog.image.url}}" alt="" />
+                        <div class="hover">
+                            <div class="hover-iner">
+                                <a class="fancybox" style="font-weight: 800;"><i class="fa fa-eye"></i> {% get_hit_count for blog %}+</a>
+                            </div>
+                        </div>
+                    </div>  
+                    <div class="label-text">
+                        <h3><a href="{{blog.get_absolute_url}}">{{blog.title}}</a></h3>
+                        <span class="text-category"></span>
+                    </div>
+                </div>          
+            </div>
+            {% endfor %}
+        {% else %}
+  
+            <h2 style="color: red;">No results found for <span style="color: blue;">{{request.GET.q}}</span></h2>
 
+        {% endif %}
+          
+        </div>
+ {% if page_obj.has_other_pages %}
+ 
+     <div class="mb-3 pagination">
+ 
+         {% if page_obj.has_previous %}
+             <a href="?page=
+ 
+                     {{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+                class="mx-1" style="display: inline;"><i class="fa fa-chevron-left"></i></a>
+         {% endif %}
+ 
+         {% for page in page_obj.paginator.page_range %}
+             {% if page_obj.number == page %}
+                 <a href="?page={{ page }}" class="active mx-1" style="display: inline;">{{ page }}</a>
+             {% elif page > page_obj.number|add:'-3' and page < page_obj.number|add:'3' %}
+                 <a href="?page={{ page }}" class="mx-1" style="display: inline;">{{ page }}</a>
+             {% endif %}
+         {% endfor %}
+ 
+ 
+         {% if page_obj.has_next %}
+             <a href="?page=
+ 
+                     {{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+                class="mx-1" style="display: inline;"><i class="fa fa-chevron-right"></i></a>
+         {% endif %}
+ 
+     </div>
+ 
+ {% endif %}
+    </div>
+ </div>
 {% endblock %}
