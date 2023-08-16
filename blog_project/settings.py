@@ -41,7 +41,7 @@ THIRD_PARTY_APPS = [
     # 'crispy_forms',
     # 'widget_tweaks',
     # 'django_social_share',
-    # 'django_cleanup.apps.CleanupConfig',
+    'django_cleanup.apps.CleanupConfig',
     'hitcount',
     # 'star_ratings',
 ]
@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 
     *LOCAL_APPS,
     *THIRD_PARTY_APPS,

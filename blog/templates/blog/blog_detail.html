@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% load static %}
-{% load social_share %}
 {% load hitcount_tags %}
 {% load humanize %}
 {% block title %}
@@ -17,175 +16,193 @@
 {% endblock %}
 
 {% block main %}
-<div class="iq-breadcrumb-one  iq-bg-over iq-over-dark-50"
-style="background-image: url({% static 'Theme/images/about-us/01.jpg' %});">
-<div class="container-fluid">
-    <div class="row align-items-center">
-        <div class="col-sm-12">
-            <nav aria-label="breadcrumb" class="text-center iq-breadcrumb-two">
-                <h2 class="title">{{blog.title}}</h2>
-                <ol class="breadcrumb main-bg">
-                    <li class="breadcrumb-item"><a href="{% url 'home:main' %}">خانه</a></li>
-                    <li class="breadcrumb-item"><a
-                        href="{% url 'blog:tag-detail' blog.tag.last.slug %}">{{ blog.tag.last }}</a>
-                    </li>
-                    <li class="breadcrumb-item"><a
-                        href="{% url 'blog:blog-detail' blog.slug %}">{{ blog.slug }}</a>
-                    </li>
-                </ol>
-            </nav>
-        </div>
-    </div>
-</div>
-</div>
 
-<!-- Main container --> 
-<main id="main" class="site-main">
+<div id="heading">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-sm-12">
-                <article>
-                    <div class="iq-blog-box">
-                       <div class="iq-blog-image">
-                          <img width="1920" height="1080" src="{{blog.image.url}}" >				
-                       </div>
-                       <div class="iq-blog-detail">
-                            <div class="iq-blog-meta">
-                                <ul class="list-inline">
-                                <li class="list-inline-item">
-                                    <a href="#" class="iq-user"><i class="fa fa-user-o mr-1" aria-hidden="true"></i>{{blog.author.full_name}}</a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <i class="fa fa-calendar mr-1" aria-hidden="true"></i>
-                                    <span class="screen-reader-text">نوشته شده در</span>
-                                    <a href="#" rel="bookmark">
-                                        <time  datetime="2019-02-02T12:46:15+00:00">{{blog.get_jalali_date}}</time>
-                                    </a>					
-                                </li>
-                                </ul>
-                            </div>
-                            <div class="blog-content" id="scroll">
-                                <p>{{blog.description|safe}}</p>
-                        </div>
-                        <div class="comments-area validate-form">
-                            <div  class="comment-respond">
-                                {% if request.user.is_authenticated %}
-                                <h3  class="comment-reply-title">نظر دهید </h3>
-                                <form action="" method="post"  class="comment-form" novalidate=""><div class="comment-form-comment">
-                                    {% csrf_token %}
-                                    <textarea name="body" aria-required="true" id="get_fullname" placeholder="دیدگاه خود را ثبت کنید:" required ></textarea></div>
-                                    <p class="form-submit">
-                                        <button name="submit" type="submit" id="submit" class="submit" value="Post Comment">
-                                            <span class="iq-btn-text-holder">ارسال نظر</span>
-                                        </button>
-                                        <input id="parent_id" name="parent_id" type="hidden">
-                                        <input id="sender" name="sender" type="hidden">
-                                        <input id="receiver" name="receiver" type="hidden">
-                                    </p>
-                                   
-                                </form>
-                                <div onclick="CanselButton()" id="cansel_button" style="margin-left: 5px;margin-top: 5px; "></div>	
-                                {% else %}
-                                <h3  class="comment-reply-title btn btn-danger">برای ثبت دیدگاه ابتدا وارد شوید<a href="{% url 'account:sign-in' %}">ورود</a></h3>
-                                {% endif %}
-                            </div>
-                            <div class="wpcf7-response-output error-msg" aria-hidden="true" style="display: none;">
-                            </div>
-                            <div class="infinite-container">
-                                {% for comment in comments %}
-                                    {% if comment.parent == None %}
-                                        <div class="comment my-3 p-2 infinite-item" id="comment_{{ comment.id }}">
-                                            <div class=" d-flex align-items-center justify-content-between">
-                                                <div class="d-flex align-items-center justify-content-center">
-                                                    {% if comment.user.image %}
-                                                        <img src="{{ comment.user.image.url }}" alt="user"
-                                                             class="" style="border-radius: 50%;width: 50px;height: 50px;">
-                                                    {% else %}
-                                                        <img src="{% static 'Theme/images/user/user.jpg' %}"
-                                                             alt="user"
-                                                             class="" style="border-radius: 50%;width: 50px;height: 50px;">
-                                                    {% endif %}
-                                                    {% if comment.user.full_name %}
-                                                        <p class="user-name pr-2">{{ comment.user.full_name }}</p>
-                                                    {% else %}
-                                                        <p class="user-name pr-2">کاربر ناشناس</p>
-                                                    {% endif %}
-
-                                                    {% if request.user == comment.user %}
-
-                                                        <a onclick="RemoveComment({{ comment.id }})" style="background-color: transparent;margin-bottom: 10px;" class="a">
-                                                            <i class="fa fa-trash text-danger mr-4"></i>    
-                                                        </a>
-                                                    {% endif %}
-                                                    <p class="comment-date-time text-danger mx-2">{{ comment.created_at|naturaltime }}</p>
-
-                                                </div>
-
-                                            </div>
-                                            <p class="px-4 py-2 comment-text text-justify">{{ comment.body }}</p>
-
-                                            <div class="d-flex align-items-center justify-content-end reply"
-                                                 type='button'>
-
-                                                {% if request.user.is_authenticated %}
-                                                <button onclick="reply('{{ comment.id }}', '{{ request.user.id }}', '{{ comment.user.id }}','{{ comment.user.full_name }}')" class="btn btn-primary">
-                                                <i class="fa fa-reply"></i>
-                                                پاسخ به این نظر
-                                                </button>
-                                                {% endif %}
-
-                                            </div>
-
-
-                                        </div>
-                                        {% for reply in comment.replies.all %}
-                                            <div class="comment my-3 p-2 comment-child">
-                                                <div class=" d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center justify-content-center">
-                                                        {% if reply.user.image %}
-                                                            <img src="{{ reply.user.image.url }}"
-                                                                 alt="user"
-                                                                 class="" style="border-radius: 50%;width: 50px;height: 50px;">
-                                                        {% else %}
-                                                            <img src="{% static 'Theme/images/user/user.jpg' %}"
-                                                                 alt="user"
-                                                                 class="" style="border-radius: 50%;width: 50px;height: 50px;">
-                                                        {% endif %}
-                                                        {% if reply.user.full_name %}
-                                                            <p class="user-name pr-2">{{ reply.user.full_name }}</p>
-                                                        {% else %}
-                                                            <p class="user-name pr-2">کاربر ناشناس</p>
-                                                        {% endif %}
-
-                                                        {% if request.user == reply.user %}
-
-
-
-                                                        <a onclick="RemoveComment({{ reply.id }})" style="background-color: transparent;margin-bottom: 10px;" class="a">
-                                                            <i class="fa fa-trash text-danger mr-4"></i>    
-                                                        </a>
-
-                                                        {% endif %}
-                                                        <p class="comment-date-time text-danger mx-2">{{ reply.created_at|naturaltime }}</p>
-
-                                                    </div>
-
-                                                </div>
-                                                <p class="px-4 py-2 comment-text text-justify">
-                                                    {{ reply.body }}
-                                                </p>
-                                            </div>
-                                        {% endfor %}
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                </article>
+            <div class="col-md-12">
+                <div class="heading-content">
+                    <h2>{{blog.title}}</h2>
+                    <span><a href="{% url 'home:main' %}">Home</a> / <a
+                        href="{% url 'blog:tag-detail' blog.tag.last.slug %}">{{ blog.tag.last }} / <a
+                        href="{% url 'blog:blog-detail' blog.slug %}">{{ blog.slug }}</a></span>
+                </div>
             </div>
-            {% include 'blog/sidebar.html' %}
         </div>
     </div>
-</main>
+ </div>
+<!-- Main container --> 
+<div id="product-post">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="heading-section">
+                    <h2>{{ blog.slug }}</h2>
+                    <img src="{% static 'images/under-heading.png' %}" alt="" />
+                </div>
+            </div>
+        </div>
+        <div id="single-blog" class="page-section first-section">
+            <div class="container">
+                <div class="row">
+                    <div class="product-item col-md-12">
+                        <div class="row">
+                            <div class="col-md-8">  
+                                    <div class="image">
+                                        <div class="image-post">
+                                            <img src="{{ blog.image.url }}" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h3>{{blog.title}}</h3>
+                                            <span class="subtitle">{{blog.author.full_name}}</span>
+                                        </div>
+                                        <p>{{blog.description|safe}}</p>
+                                    </div>
+                                    <div class="divide-line">
+                                    <img src="{% static 'images/div-line.png' %}" alt="" />
+                                    </div>
+                                    <div class="comments-title">
+                                        <div class="comment-section">
+                                            <h4>4 comments</h4>
+                                        </div>
+                                    </div>
+                                    <div class="all-comments">
+                                        <div class="view-comments">
+                                            <div class="comments">
+                                                <div class="author-thumb">
+                                                    <img src="images/author-comment1.jpg" alt="">
+                                                </div>
+                                                <div class="comment-body">
+                                                    <h6>Cindy Venna</h6>
+                                                    <span class="date">11 Sep 2084 - 12:25 PM</span>
+                                                    <a href="#" class="hidden-xs">Reply</a>
+                                                    <p>Nulla ac elementum nibh. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aliquam erat volutpat. Donec rhoncus quam sit amet sodales finibus. Donec pellentesque non massa eu maximus. In non tellus id sem tempor gravida.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="replyed-form">
+                                            <div class="comments replyed">
+                                                <div class="author-thumb">
+                                                    <img src="images/author-comment2.jpg" alt="">
+                                                </div>
+                                                <div class="comment-body">
+                                                    <h6>George Tanya</h6>
+                                                    <span class="date">12 Sep 2084 - 8:48 AM</span>
+                                                    <a href="#" class="hidden-xs">Reply</a>
+                                                    <p>In pulvinar venenatis odio. Sed in ex sit amet ipsum posuere mollis. Nam nec risus feugiat dui ultrices dignissim. Morbi ex purus, commodo a tristique eu, mollis a nisi. Pellentesque in enim sit amet tellus ornare fringilla eget eu arcu.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="view-comments">
+                                            <div class="comments">
+                                                <div class="author-thumb">
+                                                    <img src="images/author-comment3.jpg" alt="">
+                                                </div>
+                                                <div class="comment-body">
+                                                    <h6>Brooker Aung</h6>
+                                                    <span class="date">12 Sep 2084 - 10:40 AM</span>
+                                                    <a href="#" class="hidden-xs">Reply</a>
+                                                    <p>Duis rutrum, libero eu blandit gravida, massa orci cursus nisi, vehicula facilisis purus neque dignissim urna. Etiam molestie elementum elit at tempus. Suspendisse quis consectetur nisi, vitae consequat sem. In et quam id libero venenatis venenatis. Morbi vitae justo vulputate, auctor augue eu, pulvinar augue.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="view-comments">
+                                            <div class="comments">
+                                                <div class="author-thumb">
+                                                    <img src="images/author-comment4.jpg" alt="">
+                                                </div>
+                                                <div class="comment-body">
+                                                    <h6>Crystal Mya</h6>
+                                                    <span class="date">14 Sep 2084 - 05:16 PM</span>
+                                                    <a href="#" class="hidden-xs">Reply</a>
+                                                    <p>Suspendisse vitae maximus nisl, non finibus ante. Suspendisse neque nisl, luctus ullamcorper erat a, fermentum mollis nibh. Aliquam vulputate augue vel metus suscipit euismod. Quisque id purus massa. Sed condimentum facilisis eros, ultrices tincidunt libero facilisis eget. Integer eget cursus velit.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="divide-line">
+                                    <img src="images/div-line.png" alt="" />
+                                    </div>
+                                <div class="leave-comment">
+                                    <div class="leave-one">
+                                        <h4>Leave a comment</h4>
+                                    </div>
+                                </div>
+                                <div class="leave-form">
+                                    <form action="#" method="post" class="leave-comment">
+                                        <div class="row">
+                                        <div class="name col-md-4">
+                                            <input type="text" name="name" id="name" placeholder="Name" />
+                                        </div>
+                                        <div class="email col-md-4">
+                                            <input type="text" name="email" id="email" placeholder="Email" />
+                                        </div>
+                                        <div class="subject col-md-4">
+                                            <input type="text" name="subject" id="subject" placeholder="Subject" />
+                                        </div>
+                                        </div>
+                                        <div class="row">        
+                                            <div class="text col-md-12">
+                                                <textarea name="text" placeholder="Comment"></textarea>
+                                            </div>   
+                                        </div>                              
+                                        <div class="send">
+                                            <button type="submit">Send</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-md-offset-1">
+                                <div class="side-bar">
+                                    <div class="news-letters">
+                                        <h4>Archives</h4>
+                                        <div class="archives-list">
+                                            <ul>
+                                                {% for item in latest_blogs %}
+                                                <li><a href="{% url 'blog:blog-detail' item.slug %}"><i class="fa fa-angle-right"></i>{{item.created_at|naturaltime}}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>        
+                                    </div>
+                                    <div class="recent-post">
+                                        <h4>Recent Posts</h4>
+                                        <div class="posts">
+                                            {% for item in latest_blogs %}
+                                            <div class="recent-post">
+                                                <div class="recent-post-thumb">
+                                                    <img src="{{item.image.url}}" alt="">
+                                                </div>
+                                                <div class="recent-post-info">
+                                                    <h6><a href="{% url 'blog:blog-detail' item.slug %}">{{item.title}}</a></h6>
+                                                    <span>{{item.created_at|naturaltime}}</span>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div> 
+                                    </div>
+                                    <div class="advertisement">
+                                        <h4>Tags</h4>
+                                        <div class="flickr-images">
+                                            <div class="row">
+                                                {% for tag in tags %}
+                                                <div class="col-md-4 col-sm-2 col-xs-3">
+                                                    <a href="{% url 'blog:tag-detail' tag.slug %}">{{tag.title}}</a>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>    
+                                </div>
+                            </div>     
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>     
+    </div>
+</div>
+
 <!-- Main container end -->
 {% endblock %}
