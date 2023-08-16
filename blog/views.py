@@ -60,6 +60,16 @@ class BlogListView(ListView):
     model = Blog
     paginate_by = 10
     context_object_name = "blogs"
+    
+    def get_queryset(self):
+        # Return queryset based on filter
+        filter = self.request.GET.get("filter")
+        blogs = Blog.objects.all()
+        if not filter or filter=="most-viewed":
+            return Blog.objects.order_by('-hit_count_generic__hits')
+        elif filter == "most-recent":
+            return Blog.objects.all().order_by("-created_at")
+
 
 
 
