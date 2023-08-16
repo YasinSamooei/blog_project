@@ -28,6 +28,6 @@ def create_blog_notification_signal(sender, instance, created, *args, **kwargs):
     if created:
         message = f'The article {instance.title} was published.'
         blog=instance
-        user=User.objects.all()
+        user=User.objects.filter(is_notif=True)
         public=Notification.objects.create(message=message,blog=blog)
         public.all_user.set(user)

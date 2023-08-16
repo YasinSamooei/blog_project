@@ -14,17 +14,17 @@ class UserAdmin(BaseUserAdmin):
     form = UserChangeForm
 
     list_display = ( 'email', 'full_name', 'is_active', 'is_staff', 'is_superuser')
-    list_filter = ('is_active', 'is_superuser', 'is_staff'
+    list_filter = ('is_active', 'is_superuser', 'is_staff','is_notif'
                    )
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('اطلاعات شخصی', {'fields': ('full_name', 'image', 'instagram','twitter','linkedin')}),
-        ('دسترسی‌ها', {'fields': ('is_active', 'is_staff', 'is_superuser')}),
+        ('دسترسی‌ها', {'fields': ('is_active', 'is_staff', 'is_superuser','is_notif')}),
     )
     add_fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('اطلاعات شخصی', {'fields': ('full_name', 'image', 'instagram','twitter','linkedin')}),
-        ('دسترسی‌ها', {'fields': ('is_active', 'is_staff', 'is_superuser')}),
+        ('دسترسی‌ها', {'fields': ('is_active', 'is_staff', 'is_superuser','is_notif')}),
 
     )
     search_fields = ('email', 'full_name')

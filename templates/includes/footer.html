@@ -7,7 +7,15 @@
                     <div class="subscribe-form">
                         <span>Get in touch with us:</span>
                         <form method="get" class="subscribeForm">
-                            <button class="btn btn-primary">Activation of the notification system</button>
+                            {% if request.user.is_authenticated %}
+                                {% if request.user.is_notif %}
+                                    <a href="{% url 'blog:remove-notif-system' %}" class="btn btn-danger">Deactivate of the notification system</a>
+                                {% else %}                                
+                                    <a href="{% url 'blog:add-notif-system' %}" class="btn btn-primary">Activation of the notification system</a>
+                                {% endif %}
+                            {% else %}
+                                <a href="{% url 'account:sign-in' %}" class="btn btn-primary">please sign-in</a> 
+                            {% endif %}  
                         </form>
                     </div>
                 </div>

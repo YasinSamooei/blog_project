@@ -114,3 +114,27 @@ class DeletePublicNotif(View):
         notif.all_user.remove(req.user)
         notif.save()
         pass
+
+
+class AddNotificationSystem(View):
+    def get(self,request):
+        user=request.user
+        if user.is_authenticated:
+            user.is_notif=True
+            user.save()
+            return redirect("home:main")
+        else:
+            return redirect("account:sign-in")
+
+            
+
+
+class RemoveNotificationSystem(View):
+    def get(self,request):
+        user=request.user
+        if user.is_authenticated:
+            user.is_notif=False
+            user.save()
+            return redirect("home:main")
+        else:
+            return redirect("account:sign-in")
