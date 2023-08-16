@@ -11,5 +11,7 @@ urlpatterns = [
     path('papular-blogs', views.PopularBlogListView.as_view(), name='papular-blogs'),
     path('tag/<str:slug>', views.TagDetailView.as_view(), name='tag-detail'),
     path("remove/<int:pk>", views.RemoveCommentView.as_view(), name='remove_comment'),
+    path('delete-notif/<int:pk>',views.DeleteNotif.as_view(),name="delete-notif"),
+    path('delete-public-notif/<int:pk>',views.DeletePublicNotif.as_view(),name="delete-public-notif"),
     
 ]

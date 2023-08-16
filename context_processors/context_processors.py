@@ -8,7 +8,9 @@ def blog(request):
     context['tags']=Tag.objects.all()
 
     if request.user.is_authenticated:
-        notifications = Notification.objects.filter(user=request.user)
-        context.update({'notifications': notifications})
+        notifications = Notification.objects.filter(all_user=request.user)
+        privetnotif=Notification.objects.filter(user=request.user)
+        total=notifications.count()+privetnotif.count()
+        context.update({'notifications': notifications,'privetnotif':privetnotif,'total':total})
 
     return context

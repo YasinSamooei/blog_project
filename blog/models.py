@@ -70,6 +70,7 @@ class Comment(models.Model):
 
 class Notification(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE, null=True, blank=True, related_name='notifs')
+    all_user=models.ManyToManyField(User,related_name="users")
     created_at=models.DateTimeField(auto_now_add=True)
     message = models.TextField()
     blog=models.ForeignKey(Blog,on_delete=models.CASCADE, null=True, blank=True, related_name='notifs')

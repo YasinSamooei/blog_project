@@ -98,4 +98,19 @@ class RemoveCommentView(View):
         comment_obj = Comment.objects.get(id=self.kwargs.get('pk'))
         comment_obj.delete()
         return redirect('home:main')
-        
+
+
+
+class DeleteNotif(View):
+    def get(self, req, pk):
+        notif = Notification.objects.get(id=pk)
+        notif.delete()
+        pass
+
+
+class DeletePublicNotif(View):
+    def get(self, req, pk):
+        notif = Notification.objects.get(id=pk)
+        notif.all_user.remove(req.user)
+        notif.save()
+        pass
