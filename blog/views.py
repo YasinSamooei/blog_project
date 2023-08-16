@@ -73,15 +73,6 @@ class BlogListView(ListView):
 
 
 
-class PopularBlogListView(ListView):
-    template_name = "blog/papular-blog.html"
-    model = Blog
-    paginate_by = 10
-    context_object_name = "blogs"
-    queryset = Blog.objects.order_by('-hit_count_generic__hits')
-
-
-
 class TagDetailView(View):
     """
     View for returning videos
