@@ -47,7 +47,7 @@
                         <ul>
                             <li><a href="https://github.com/YasinSamooei"><strong>Developed with Django by <a><span class="blue">Yasin Samooei</span></a><a><span class="green"> (electrocode) </span></a></strong></a></li>
                             {% for tag in tags %}
-                            <li><span class="green"><a>{{tag.title}}</a></span></li>
+                            <li><span class="green"><a href="{% url 'blog:tag-detail' tag.slug %}">{{tag.title}}</a></span></li>
                             {% endfor %}
                         </ul>
                     </div>
