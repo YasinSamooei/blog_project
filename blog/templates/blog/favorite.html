@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load hitcount_tags %}
+
+{% block title %}
+Favorite List
+{% endblock %}
+
+{% block meta %}
+<meta name="robots" content="noindex"/>
+{% endblock %}
+
+{% block main %}
+
+
+<div id="heading">
+   <div class="container">
+       <div class="row">
+           <div class="col-md-12">
+               <div class="heading-content">
+                   <h2>Favorite List</h2>
+                   <span><a href="{% url 'home:main' %}">Home</a> / <a>Favorite List</a></span>
+               </div>
+           </div>
+       </div>
+   </div>
+</div>
+
+
+
+
+
+<div id="products-post">
+   <div class="container">
+       <div class="row" id="Container">
+         {% for blog in blogs %}
+           <div class="col-md-3 col-sm-6 mix portfolio-item Pizza">       
+               <div class="portfolio-wrapper">                
+                   <div class="portfolio-thumb">
+                       <img src="{{blog.image.url}}" alt="" />
+                       <div class="hover">
+                           <div class="hover-iner">
+                               <a class="fancybox" style="font-weight: 800;"><i class="fa fa-eye"></i> {% get_hit_count for blog %}+</a>
+                           </div>
+                       </div>
+                   </div>  
+                   <div class="label-text">
+                       <h3><a href="{{blog.get_absolute_url}}">{{blog.title}}</a></h3>
+                       <span class="text-category"></span>
+                   </div>
+               </div>          
+           </div>
+         {% endfor %}
+       </div>
+{% if page_obj.has_other_pages %}
+
+    <div class="mb-3 pagination">
+
+        {% if page_obj.has_previous %}
+            <a href="?page=
+
+                    {{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+               class="mx-1" style="display: inline;"><i class="fa fa-chevron-left"></i></a>
+        {% endif %}
+
+        {% for page in page_obj.paginator.page_range %}
+            {% if page_obj.number == page %}
+                <a href="?page={{ page }}" class="active mx-1" style="display: inline;">{{ page }}</a>
+            {% elif page > page_obj.number|add:'-3' and page < page_obj.number|add:'3' %}
+                <a href="?page={{ page }}" class="mx-1" style="display: inline;">{{ page }}</a>
+            {% endif %}
+        {% endfor %}
+
+
+        {% if page_obj.has_next %}
+            <a href="?page=
+
+                    {{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+               class="mx-1" style="display: inline;"><i class="fa fa-chevron-right"></i></a>
+        {% endif %}
+
+    </div>
+
+{% endif %}
+   </div>
+</div>
+
+{% endblock %}

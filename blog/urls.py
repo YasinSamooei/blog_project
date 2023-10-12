@@ -15,6 +15,7 @@ urlpatterns = [
     path('add-notif-system',views.AddNotificationSystem.as_view(),name="add-notif-system"),
     path('remove-notif-system',views.RemoveNotificationSystem.as_view(),name="remove-notif-system"),
     path("add-favorite/<int:pk>", views.AddFavoriteView.as_view(), name="favorite_add"),
+    path("favorite", views.FavoriteListView.as_view(), name="favorite"),
     
     
 ]

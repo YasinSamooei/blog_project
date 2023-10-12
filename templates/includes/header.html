@@ -6,7 +6,7 @@
                <div class="col-md-6">
                    <div class="home-account">
                     {% if request.user.is_authenticated %}
-                       <a href="#">My account</a>     
+                       <a href="{% url 'blog:favorite' %}">My Favorites</a>     
                        <div class="dropdown">
                         <i class="fa fa-bell dropbtn" style="margin-right: 5px;color: coral;" onclick="myFunction()"></i>
                         <div id="myDropdown" class="dropdown-content">

@@ -28,15 +28,18 @@ class BlogDetailView(HitCountDetailView):
         comment = blog.comments.all().order_by('-created_at')
         # Check if blog is added to favorites by user
 
-        if blog.favorites.filter(id=self.request.user.id).exists():
-            context["is_fav"] = True
-        else:
-            context["is_fav"] = False
 
         context = {
                 "comments": comment,
                 "blog":blog,
             }
+        
+        
+        if blog.favorites.filter(id=self.request.user.id).exists():
+            context["is_fav"] = True
+        else:
+            context["is_fav"] = False
+            
         return context
 
     def post(self, request, slug):
@@ -163,3 +166,12 @@ class AddFavoriteView(View):
         else:
             blog.favorites.add(request.user)
             return JsonResponse({"response": "added"})
+
+
+class FavoriteListView(ListView):
+    template_name = 'blog/favorite.html'
+    model = Blog
+    paginate_by = 10
+    context_object_name = "blogs"
+    def get_queryset(self):
+        return Blog.objects.filter(favorites=self.request.user)
