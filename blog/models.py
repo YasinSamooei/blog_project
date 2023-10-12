@@ -34,7 +34,7 @@ class Blog(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE,related_name='blogs',)
     slug = models.SlugField(unique=True, null=True, blank=True, allow_unicode=True)
-
+    favorites = models.ManyToManyField(User, default=None, blank=None, related_name="favorites",verbose_name="favorites")
     class Meta:
         ordering = ["-created_at"]
 
@@ -83,4 +83,6 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"{self.user} , {self.message[:10]}"
+
+
 

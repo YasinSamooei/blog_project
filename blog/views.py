@@ -6,6 +6,7 @@ from django.views.generic import ListView
 from django.views import View
 from django.core.paginator import Paginator
 from urllib.parse import unquote
+from django.http import JsonResponse
 # local 
 from blog.models import *
 
@@ -25,6 +26,13 @@ class BlogDetailView(HitCountDetailView):
         context = super().get_context_data(**kwargs)
         blog=self.get_object()
         comment = blog.comments.all().order_by('-created_at')
+        # Check if blog is added to favorites by user
+
+        if blog.favorites.filter(id=self.request.user.id).exists():
+            context["is_fav"] = True
+        else:
+            context["is_fav"] = False
+
         context = {
                 "comments": comment,
                 "blog":blog,
@@ -139,3 +147,19 @@ class RemoveNotificationSystem(View):
             return redirect("home:main")
         else:
             return redirect("account:sign-in")
+
+
+class AddFavoriteView(View):
+    """
+    Add or remove a video from favorites
+    """
+
+    def get(self, request, pk):
+        blog = get_object_or_404(Blog, id=pk)
+
+        if blog.favorites.filter(id=request.user.id).exists():
+            blog.favorites.remove(request.user)
+            return JsonResponse({"response": "deleted"})
+        else:
+            blog.favorites.add(request.user)
+            return JsonResponse({"response": "added"})

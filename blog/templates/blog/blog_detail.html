@@ -57,6 +57,26 @@
                                         <div class="product-title">
                                             <h3>{{blog.title}}</h3>
                                             <span class="subtitle">{{blog.author.full_name}}</span>
+                                            {% if request.user.is_authenticated %}
+                                            {% if is_fav %}
+                                            <span style="margin-left: 5px;"><a 
+                                                onclick="favorite({{ blog.id }})">
+                                                <i class="fa fa-bookmark" id="favorite"></i>
+                                            </a></span>
+                                            {% else %}
+                                            <span style="margin-left: 5px;"><a 
+                                                onclick="favorite({{ blog.id }})">
+                                                <i class="fa fa-bookmark-o" id="favorite" type="button"></i>
+                                            </a></span>
+                                            {% endif %}
+
+                                        {% else %}
+
+                                            <span style="margin-left: 5px;"><a onclick="Warning()"> <i
+                                                class="fa fa-bookmark-o" type='button'
+                                                aria-hidden="true"></i></a></span>
+
+                                        {% endif %}
                                         </div>
                                         <p>{{blog.description|safe}}</p>
                                     </div>
