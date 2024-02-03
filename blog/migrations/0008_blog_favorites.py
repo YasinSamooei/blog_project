@@ -8,13 +8,19 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('blog', '0007_notification_all_user'),
+        ("blog", "0007_notification_all_user"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='blog',
-            name='favorites',
-            field=models.ManyToManyField(blank=None, default=None, related_name='favorites', to=settings.AUTH_USER_MODEL, verbose_name='favorites'),
+            model_name="blog",
+            name="favorites",
+            field=models.ManyToManyField(
+                blank=None,
+                default=None,
+                related_name="favorites",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="favorites",
+            ),
         ),
     ]

@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
-from .models import User ,Otp
+from .models import User, Otp
 
-from .forms import SignUpForm,UserChangeForm
+from .forms import SignUpForm, UserChangeForm
 
-admin.site.index_title = 'free blog site'
+admin.site.index_title = "free blog site"
 
 
 class UserAdmin(BaseUserAdmin):
@@ -13,22 +13,26 @@ class UserAdmin(BaseUserAdmin):
     add_form = SignUpForm
     form = UserChangeForm
 
-    list_display = ( 'email', 'full_name', 'is_active', 'is_staff', 'is_superuser')
-    list_filter = ('is_active', 'is_superuser', 'is_staff','is_notif'
-                   )
+    list_display = ("email", "full_name", "is_active", "is_staff", "is_superuser")
+    list_filter = ("is_active", "is_superuser", "is_staff", "is_notif")
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
-        ('اطلاعات شخصی', {'fields': ('full_name', 'image', 'instagram','twitter','linkedin')}),
-        ('دسترسی‌ها', {'fields': ('is_active', 'is_staff', 'is_superuser','is_notif')}),
+        (None, {"fields": ("email", "password")}),
+        (
+            "اطلاعات شخصی",
+            {"fields": ("full_name", "image", "instagram", "twitter", "linkedin")},
+        ),
+        ("دسترسی‌ها", {"fields": ("is_active", "is_staff", "is_superuser", "is_notif")}),
     )
     add_fieldsets = (
-        (None, {'fields': ('email', 'password')}),
-        ('اطلاعات شخصی', {'fields': ('full_name', 'image', 'instagram','twitter','linkedin')}),
-        ('دسترسی‌ها', {'fields': ('is_active', 'is_staff', 'is_superuser','is_notif')}),
-
+        (None, {"fields": ("email", "password")}),
+        (
+            "اطلاعات شخصی",
+            {"fields": ("full_name", "image", "instagram", "twitter", "linkedin")},
+        ),
+        ("دسترسی‌ها", {"fields": ("is_active", "is_staff", "is_superuser", "is_notif")}),
     )
-    search_fields = ('email', 'full_name')
-    ordering = ('is_superuser', 'is_staff', 'is_active', 'email')
+    search_fields = ("email", "full_name")
+    ordering = ("is_superuser", "is_staff", "is_active", "email")
     filter_horizontal = ()
 
     # Staff can only delete their own account
@@ -54,9 +58,8 @@ class UserAdmin(BaseUserAdmin):
     # Field makes specified fields as read-only for staff
     def get_readonly_fields(self, request, obj=None):
         if not request.user.is_superuser:
-            return 'is_superuser', 'is_staff', 'is_active'
+            return "is_superuser", "is_staff", "is_active"
         return super(UserAdmin, self).get_readonly_fields(request)
-
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
@@ -64,8 +67,6 @@ class UserAdmin(BaseUserAdmin):
         if user.is_superuser:
             return qs
         return qs.filter(id=user.id)
-
-
 
 
 # Now register the new UserAdmin...

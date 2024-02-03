@@ -1,30 +1,28 @@
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils import timezone
 from .managers import UserManager
 from django.db import models
 
 
-class User(AbstractBaseUser):
-
-    email = models.EmailField(max_length=255,unique=True)
+class User(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(max_length=255, unique=True)
     full_name = models.CharField(max_length=55)
-    image = models.ImageField(upload_to='images/users', null=True, blank=True)
-    bio = models.CharField(null=True, blank=True , max_length=500)
-    instagram =models.URLField(null=True,blank=True)
-    twitter =models.URLField(null=True,blank=True)
-    linkedin =models.URLField(null=True,blank=True)
+    image = models.ImageField(upload_to="images/users", null=True, blank=True)
+    bio = models.CharField(null=True, blank=True, max_length=500)
+    instagram = models.URLField(null=True, blank=True)
+    twitter = models.URLField(null=True, blank=True)
+    linkedin = models.URLField(null=True, blank=True)
 
     date_joined = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_author = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    is_notif=models.BooleanField(default=False)
+    is_notif = models.BooleanField(default=False)
     objects = UserManager()
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["full_name"]
-
 
     def __str__(self):
         return str(self.email)
