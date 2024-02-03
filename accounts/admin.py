@@ -22,9 +22,11 @@ class UserAdmin(BaseUserAdmin):
             {"fields": ("full_name", "image", "instagram", "twitter", "linkedin")},
         ),
         ("دسترسی‌ها", {"fields": ("is_active", "is_staff", "is_superuser", "is_notif")}),
+        ("groups", {"fields": ("groups", "user_permissions")}),
+        ("date_data", {"fields": ("last_login",)})
     )
     add_fieldsets = (
-        (None, {"fields": ("email", "password")}),
+        ("احراز هویت", {"fields": ("email", "password")}),
         (
             "اطلاعات شخصی",
             {"fields": ("full_name", "image", "instagram", "twitter", "linkedin")},
